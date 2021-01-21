@@ -1,6 +1,6 @@
 <?php
 
-namespace Insane\Paypal\Models;
+namespace Insane\Treasurer\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

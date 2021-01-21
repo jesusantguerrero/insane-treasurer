@@ -1,13 +1,13 @@
 <?php
 
-namespace Insane\Paypal\Http\Controllers;
+namespace Insane\Treasurer\Http\Controllers;
 
-use Insane\Paypal\PaypalService;
+use Insane\Treasurer\PaypalService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Insane\Paypal\Models\Plan as ModelsPlan;
-use Insane\Paypal\Models\Subscription;
+use Insane\Treasurer\Models\Plan as ModelsPlan;
+use Insane\Treasurer\Models\Subscription;
 use PayPal\Api\Agreement;
 
 class PlansController

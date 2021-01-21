@@ -1,8 +1,8 @@
 <?php
-namespace Insane\Paypal\Models;
+namespace Insane\Treasurer\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Insane\Paypal\PaypalService;
+use Insane\Treasurer\PaypalService;
 
 Class Subscription extends Model {
     protected $fillable = [

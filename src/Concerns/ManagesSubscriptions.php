@@ -1,9 +1,9 @@
 <?php
 
-namespace Insane\Paypal\Concerns;
+namespace Insane\Treasurer\Concerns;
 
-use Insane\Paypal\Models\Subscription;
-use Insane\Paypal\PaypalService;
+use Insane\Treasurer\Models\Subscription;
+use Insane\Treasurer\PaypalService;
 
 trait ManagesSubscriptions
 {
@@ -12,7 +12,7 @@ trait ManagesSubscriptions
      *
      * @param  string  $name
      * @param  string|string[]  $plans
-     * @return \Insane\Paypal\SubscriptionBuilder
+     * @return \Insane\Treasurer\SubscriptionBuilder
      */
     public function newSubscription($name, $plans)
     {

@@ -1,5 +1,5 @@
 {
-    "name": "insane/paypal",
+    "name": "insane/treasurer",
     "description": "Like cashier but for paypal",
     "type": "library",
     "license": "MIT",
@@ -27,12 +27,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Insane\\Paypal\\": "src/"
+            "Insane\\Treasurer\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Insane\\Paypal\\Tests\\": "tests/"
+            "Insane\\Treasurer\\Tests\\": "tests/"
         }
     },
     "extra": {

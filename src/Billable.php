@@ -1,11 +1,11 @@
 <?php
 namespace Insane\Paypal;
 
-// use Insane\Paypal\Concerns\ManagesCustomer;
-// use Insane\Paypal\Concerns\ManagesInvoices;
-// use Insane\Paypal\Concerns\ManagesPaymentMethods;
-use Insane\Paypal\Concerns\ManagesSubscriptions;
-// use Insane\Paypal\Concerns\PerformsCharges;
+// use Insane\Treasurer\Concerns\ManagesCustomer;
+// use Insane\Treasurer\Concerns\ManagesInvoices;
+// use Insane\Treasurer\Concerns\ManagesPaymentMethods;
+use Insane\Treasurer\Concerns\ManagesSubscriptions;
+// use Insane\Treasurer\Concerns\PerformsCharges;
 
 trait Billable
 {

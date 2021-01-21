@@ -2,7 +2,7 @@
 namespace Insane\Paypal;
 
 use Illuminate\Support\ServiceProvider;
-use Insane\Paypal\Console\InstallCommand;
+use Insane\Treasurer\Console\InstallCommand;
 
 class PaypalServiceProvider extends ServiceProvider
 {

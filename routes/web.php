@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Insane\Paypal\Http\Controllers\PlansController;
-use Insane\Paypal\Http\Controllers\SubscriptionsController;
+use Insane\Treasurer\Http\Controllers\PlansController;
+use Insane\Treasurer\Http\Controllers\SubscriptionsController;
 
 // resource route
 Route::middleware(config('jetstream.middleware', ['web']))->group(function() {

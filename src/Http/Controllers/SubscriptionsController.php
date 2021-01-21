@@ -1,13 +1,13 @@
 <?php
 
-namespace Insane\Paypal\Http\Controllers;
+namespace Insane\Treasurer\Http\Controllers;
 
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Insane\Paypal\PaypalService;
-use Insane\Paypal\Models\Subscription;
+use Insane\Treasurer\PaypalService;
+use Insane\Treasurer\Models\Subscription;
 
 class SubscriptionsController
 {

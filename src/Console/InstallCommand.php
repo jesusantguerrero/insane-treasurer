@@ -1,6 +1,6 @@
 <?php
 
-namespace Insane\Paypal\Console;
+namespace Insane\Treasurer\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;

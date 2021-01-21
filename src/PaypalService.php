@@ -6,7 +6,7 @@ namespace Insane\Paypal;
 // Used to process plans
 
 use Exception;
-use Insane\Paypal\Models\Plan as ModelsPlan;
+use Insane\Treasurer\Models\Plan as ModelsPlan;
 use PayPal\Api\Agreement;
 use PayPal\Api\AgreementStateDescriptor;
 use PayPal\Api\Currency;
