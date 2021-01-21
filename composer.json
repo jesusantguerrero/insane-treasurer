@@ -41,7 +41,7 @@
         },
         "laravel": {
             "providers": [
-                "Insane\\Paypal\\PaypalServiceProvider"
+                "Insane\\Treasurer\\TreasurerServiceProvider"
             ]
         }
     },

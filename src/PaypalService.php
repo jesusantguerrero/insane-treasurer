@@ -1,6 +1,6 @@
 <?php
 
-namespace Insane\Paypal;
+namespace Insane\Treasurer;
 
 
 // Used to process plans

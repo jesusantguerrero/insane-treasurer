@@ -1,10 +1,10 @@
 <?php
-namespace Insane\Paypal;
+namespace Insane\Treasurer;
 
 use Illuminate\Support\ServiceProvider;
 use Insane\Treasurer\Console\InstallCommand;
 
-class PaypalServiceProvider extends ServiceProvider
+class TreasurerServiceProvider extends ServiceProvider
 {
 
     public function boot()

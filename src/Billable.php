@@ -1,5 +1,5 @@
 <?php
-namespace Insane\Paypal;
+namespace Insane\Treasurer;
 
 // use Insane\Treasurer\Concerns\ManagesCustomer;
 // use Insane\Treasurer\Concerns\ManagesInvoices;
