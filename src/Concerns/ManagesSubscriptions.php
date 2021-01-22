@@ -4,6 +4,7 @@ namespace Insane\Treasurer\Concerns;
 
 use Insane\Treasurer\Models\Subscription;
 use Insane\Treasurer\PaypalService;
+use Insane\Treasurer\PaypalServiceV2;
 
 trait ManagesSubscriptions
 {
@@ -85,6 +86,30 @@ trait ManagesSubscriptions
         }
 
         return $plan ? $subscription->hasPlan($plan) : true;
+    }
+
+    /**
+     * Get a subscription instance by name.
+     *
+     * @param  string  $name
+     * @return \Laravel\Cashier\Subscription|null
+     */
+    public function saveSubscription($subscriptionId, $data)
+    {
+        $paypalService = new PaypalServiceV2();
+        $subscription = $paypalService->getSubscriptions($subscriptionId);
+        $localSubscription = Subscription::createFromPaypalv2($subscription, $data['plan_id'], $this);
+        if ($this->agreement_id) {
+            // $this->cancelSubscription();
+        }
+
+        if(isset($localSubscription->agreement_id)){
+            $this->customer_id = $localSubscription->customer_id;
+            $this->plan_id = $localSubscription->plan_id;
+            $this->agreement_id = $localSubscription->agreement_id;
+            $this->save();
+        }
+        return $localSubscription;
     }
 
     /**
