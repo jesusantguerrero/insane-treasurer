@@ -9,6 +9,7 @@ use Exception;
 use PayPal\Rest\ApiContext;
 use PayPal\Auth\OAuthTokenCredential;
 use GuzzleHttp\Client;
+use Insane\Treasurer\Libraries\Paypal\PaypalClient;
 
 class PaypalServiceV2 {
     private $apiContext;
@@ -53,72 +54,34 @@ class PaypalServiceV2 {
             return $settings;
     }
 
-    public function getProducts() {
-        try {
-            $response = $this->apiContext->get('catalogs/products');
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
-
-        return $response;
+    public function getProducts($id = null) {
+        return $this->apiContext->product->get($id);
     }
 
     public function createProducts($data) {
-        return $this->apiContext->request('POST', 'catalogs/products', [
-            "headers" => [
-                "Content-Type" => "application/json"
-            ],
-            "body" => json_encode($data)
-        ]);
+        return $this->apiContext->product->store($data);
     }
     // Plans
     public function getPlans($id = null) {
-        $url = $id ? "billing/plans/$id" : 'billing/plans';
-        $result = $this->apiContext->request('GET', $url);
-        return json_decode($result->getBody());
+        return $this->apiContext->plan->get($id);
     }
 
     public function createPlans($data) {
-        return $this->apiContext->request('POST', 'billing/plans', [
-            "headers" => [
-                "Content-Type" => "application/json"
-            ],
-            "body" => json_encode($data)
-        ]);
+        return $this->apiContext->plan->store($data);
     }
 
     // Subscriptions
     public function getSubscriptions($id) {
-        $result = $this->apiContext->request('GET', "billing/subscriptions/$id");
-        return json_decode($result->getBody());
+        return $this->apiContext->subscription->get($id);
     }
 
     public function createSubscriptions($data) {
-        $result = $this->apiContext->request('POST', 'billing/subscriptions', [
-            "headers" => [
-                "Content-Type" => "application/json"
-            ],
-            "json" => $data
-        ]);
-
-        return json_decode($result->getBody());
+        return $this->apiContext->subscription->store($data);
     }
 
     public function subscribe($planId) {
         $data = [
-            "start_time" => \Carbon\Carbon::now()->addMinutes(5)->toIso8601String(),
-            "plan_id" => $planId,
-            "subscriber" => [
-                "name" => [
-                  "given_name" => "SET_PROVIDED_NAME",
-                  "surname"=> "SET_PROVIDED_SURENAME"
-                ],
-                "email_address" => "SET_PROVIDED_EMAIL"
-            ],
-            "application_context" => [
-                "return_url" => config('app.url'). "/v2/subscriptions/return",
-                "cancel_url" => config('app.url'). "/v2/subscriptions/return"
-            ]
+            "plan_id" => $planId
         ];
 
         try {
@@ -131,32 +94,9 @@ class PaypalServiceV2 {
         }
     }
 
+    // api
+
     public function setApiContext() {
-        $client = new Client();
-        $settings = self::getSettings();
-        $result = $client->post(self::SANDBOX_URL . "/oauth2/token", [
-            "auth" => [$settings['client_id'], $settings['secret']],
-            'form_params' => [
-                'grant_type' => 'client_credentials',
-            ]
-        ]);
-        $body = json_decode($result->getBody());
-
-        $this->scope = $body->scope;
-        $this->accessToken = $body->access_token;
-        $this->tokenType =  "Bearer";
-        $this->appId = $body->app_id;
-        $this->expiresIn = $body->expires_in;
-        $this->nonce = $body->nonce;
-
-        $this->apiContext = new Client([
-            "base_uri" => self::SANDBOX_URL,
-            "headers" => [
-                "Authorization" => "$this->tokenType ". $this->accessToken
-            ]
-        ]);
-
-        // dump($this->apiContext);
-        // die();
+        $this->apiContext = new PaypalClient();
     }
 }

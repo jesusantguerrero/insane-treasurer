@@ -25,7 +25,8 @@ class ProductsController
     public function index() {
         $paypalService = new PaypalServiceV2();
         try {
-            return $paypalService->getProducts();
+            $products = $paypalService->getProducts();
+            return $products;
         } catch (Exception $e) {
             return $e->getMessage();
         }

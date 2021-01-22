@@ -4,21 +4,10 @@ namespace Insane\Treasurer\Http\Controllers\V2;
 
 use Exception;
 use Illuminate\Http\Request;
-use Insane\Treasurer\Models\Plan as ModelsPlan;
-use Insane\Treasurer\Models\Subscription;
 use Insane\Treasurer\PaypalServiceV2;
 
 class SubscriptionsController
 {
-
-    public function __construct()
-    {
-        $this->model = new ModelsPlan();
-        $this->searchable = ['name'];
-        $this->validationRules = [];
-    }
-
-
     public function index($id = null) {
         $paypalService = new PaypalServiceV2();
         try {
@@ -48,20 +37,20 @@ class SubscriptionsController
     }
 
     public function return(Request $request) {
-        try {
-            // Execute agreement
-            $paypalService = new PaypalServiceV2();
-            $$paypalSubscription = $paypalService->executeSubscription($request->token);
-            $user = $request->user();
+        // try {
+        //     // Execute agreement
+        //     $paypalService = new PaypalServiceV2();
+        //     $$paypalSubscription = $paypalService->executeSubscription($request->token);
+        //     $user = $request->user();
 
-            $subscription = Subscription::createFromPlan($paypalSubscription, $user);
+        //     $subscription = Subscription::createFromPlan($paypalSubscription, $user);
 
-            return redirect('/user/billing');
-        } catch (Exception $ex) {
-            if ($user->agreement_id) {
-                $user->reactivatePlan();
-            }
-            echo $ex->getMessage();
-        }
+        //     return redirect('/user/billing');
+        // } catch (Exception $ex) {
+        //     if ($user->agreement_id) {
+        //         $user->reactivatePlan();
+        //     }
+        //     echo $ex->getMessage();
+        // }
     }
 }
