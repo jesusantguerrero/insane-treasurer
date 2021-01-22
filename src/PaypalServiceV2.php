@@ -10,6 +10,7 @@ use PayPal\Rest\ApiContext;
 use PayPal\Auth\OAuthTokenCredential;
 use GuzzleHttp\Client;
 use Insane\Treasurer\Libraries\Paypal\PaypalClient;
+use Insane\Treasurer\Models\Plan;
 
 class PaypalServiceV2 {
     private $apiContext;
@@ -70,6 +71,14 @@ class PaypalServiceV2 {
         return $this->apiContext->plan->store($data);
     }
 
+    public function syncPlans($userId) {
+        $plans = $this->getPlans();
+        foreach ($plans as $plan) {
+            $planObject = $this->getPlans($plan->id);
+            Plan::createFromPaypalV2($planObject, $userId);
+        }
+    }
+
     // Subscriptions
     public function getSubscriptions($id) {
         return $this->apiContext->subscription->get($id);
@@ -92,6 +101,18 @@ class PaypalServiceV2 {
         } catch (Exception $ex) {
           throw new Exception($ex->getMessage());
         }
+    }
+
+    public function suspendSubscription($id) {
+        return $this->apiContext->subscription->suspend($id);
+    }
+
+    public function reactivateSubscription($id) {
+        return $this->apiContext->subscription->reactivate($id);
+    }
+
+    public function cancelSubscription($id) {
+        return $this->apiContext->subscription->cancel($id);
     }
 
     // api

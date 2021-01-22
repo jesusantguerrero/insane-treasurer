@@ -4,14 +4,18 @@ namespace Insane\Treasurer\Http\Controllers\V2;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Insane\Treasurer\PaypalServiceV2;
 
 class SubscriptionsController
 {
-    public function index($id = null) {
+    public function index(Response $response, $id = null) {
         $paypalService = new PaypalServiceV2();
         try {
-            return $paypalService->getSubscriptions($id);
+            $result = $paypalService->getSubscriptions($id);
+            return $response->setContent([
+                "data" => $result
+            ])->setStatusCode(RESPONSE::HTTP_OK);
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -36,21 +40,16 @@ class SubscriptionsController
         return $request->user()->saveSubscription($subscriptionId, $data);
     }
 
-    public function return(Request $request) {
-        // try {
-        //     // Execute agreement
-        //     $paypalService = new PaypalServiceV2();
-        //     $$paypalSubscription = $paypalService->executeSubscription($request->token);
-        //     $user = $request->user();
+    // Agreements operations
+    public function paypalCancel(Request $request, $id, $agreementId) {
+        return $request->user()->cancelSubscription($agreementId, $request->post());
+    }
 
-        //     $subscription = Subscription::createFromPlan($paypalSubscription, $user);
+    public function paypalReactivate(Request $request, $id, $agreementId) {
+        return $request->user()->reactivateSubscription($agreementId, $request->post());
+    }
 
-        //     return redirect('/user/billing');
-        // } catch (Exception $ex) {
-        //     if ($user->agreement_id) {
-        //         $user->reactivatePlan();
-        //     }
-        //     echo $ex->getMessage();
-        // }
+    public function paypalSuspend(Request $request, $id, $agreementId) {
+        return $request->user()->suspendSubscription($agreementId, $request->post());
     }
 }

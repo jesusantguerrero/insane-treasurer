@@ -11,6 +11,7 @@ class Plan {
     {
         $this->apiContext = $apiContext;
         $this->endpoint = self::ENDPOINT;
+        $this->resultName = "plans";
     }
 
 }

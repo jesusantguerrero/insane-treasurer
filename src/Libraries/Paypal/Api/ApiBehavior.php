@@ -6,6 +6,7 @@ use Exception;
 trait ApiBehavior {
     protected $endpoint;
     protected $apiContext;
+    protected $resultName;
 
     public function get($id = null) {
         $url = $id ? $this->endpoint . "/$id" : $this->endpoint;
@@ -14,11 +15,12 @@ trait ApiBehavior {
         } catch (Exception $e) {
             return $e->getMessage();
         }
-        return $id ? $response->getBody() : $response->getBody();
+        $name = $this->resultName;
+        return $id ? json_decode($response->getBody()) : json_decode($response->getBody())->$name;
     }
 
     public function store($data) {
-        $result = $this->apiContext->client->request('POST', 'catalogs/products', [
+        $result = $this->apiContext->client->request('POST', $this->endpoint, [
             "headers" => [
                 "Content-Type" => "application/json"
             ],

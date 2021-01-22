@@ -44,4 +44,25 @@ Class Subscription extends Model {
             "next_payment" => json_encode($agreement->billing_info->outstanding_balance),
         ]);
     }
+
+    public static function updateStatus($status, $subscriptionId) {
+        $subscription = self::getSubscriptionByAgreementId($subscriptionId);
+
+        if ($subscription) {
+            $subscription->update([
+                    "status" => $status
+                ]);
+        }
+    }
+
+
+    public static function getSubscriptionByAgreementId($agreementId) {
+        $subscriptions = Subscription::where([
+            "agreement_id" => $agreementId
+        ])->limit(1)->get();
+
+        if (count($subscriptions)) {
+            return $subscriptions[0];
+        }
+    }
 }
