@@ -79,6 +79,10 @@ class PaypalServiceV2 {
         }
     }
 
+    public function syncPayments($userId) {
+    //
+    }
+
     // Subscriptions
     public function getSubscriptions($id) {
         return $this->apiContext->subscription->get($id);
@@ -113,6 +117,10 @@ class PaypalServiceV2 {
 
     public function cancelSubscription($id) {
         return $this->apiContext->subscription->cancel($id);
+    }
+
+    public function subscriptionTransactions($id) {
+        return $this->apiContext->subscription->transactions($id);
     }
 
     // api

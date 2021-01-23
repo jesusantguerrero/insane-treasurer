@@ -162,6 +162,19 @@ trait ManagesSubscriptions
         return $localSubscription;
     }
 
+
+    /**
+     * get transactions.
+     *
+     * @param  string  $name
+     * @return \Insane\Treasurer\Models\Subscription|null
+     */
+    public function subscriptionTransactions($subscriptionId = null)
+    {
+        $paypalService = new PaypalServiceV2();
+        return $paypalService->subscriptionTransactions($subscriptionId ?? $this->agreement_id);
+    }
+
     /**
      * Get a subscription instance by name.
      *
