@@ -43,7 +43,6 @@ class SubscriptionsController
         } catch (Exception $e) {
             return $e->getMessage();
         }
-
     }
 
     public function paypalReturn(Request $request, Response $response) {

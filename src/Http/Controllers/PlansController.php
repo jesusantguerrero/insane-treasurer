@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Insane\Treasurer\Models\Plan as ModelsPlan;
 use Insane\Treasurer\Models\Subscription;
+use Insane\Treasurer\PaypalServiceV2;
 use PayPal\Api\Agreement;
 
 class PlansController
@@ -34,5 +35,20 @@ class PlansController
             "details" => json_encode($paypalPlan->getPaymentDefinitions())
         ]);
         return $response->setContent($plan);
+    }
+
+    public function index() {
+        $paypalService = new PaypalServiceV2();
+        try {
+            return $paypalService->getProducts();
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function storeProducts(Request $request) {
+        $paypalService = new PaypalServiceV2();
+        $data = $request->post();
+        return $paypalService->createProducts($data);
     }
 }

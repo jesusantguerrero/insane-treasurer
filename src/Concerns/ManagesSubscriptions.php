@@ -4,6 +4,7 @@ namespace Insane\Treasurer\Concerns;
 
 use Insane\Treasurer\Models\Subscription;
 use Insane\Treasurer\PaypalService;
+use Insane\Treasurer\PaypalServiceV2;
 
 trait ManagesSubscriptions
 {
@@ -85,6 +86,93 @@ trait ManagesSubscriptions
         }
 
         return $plan ? $subscription->hasPlan($plan) : true;
+    }
+
+    /**
+     * Get a subscription instance by name.
+     *
+     * @param  string  $name
+     * @return \Insane\Treasurer\Models\Subscription|null
+     */
+    public function saveSubscription($subscriptionId, $data)
+    {
+        $paypalService = new PaypalServiceV2();
+        $subscription = $paypalService->getSubscriptions($subscriptionId);
+        $localSubscription = Subscription::createFromPaypalv2($subscription, $data['plan_id'], $this);
+
+        // if ($this->agreement_id) {
+        //     $this->cancelSubscription($subscriptionId, $data);
+        // }
+
+        if(isset($localSubscription->agreement_id)){
+            $this->customer_id = $localSubscription->customer_id;
+            $this->plan_id = $localSubscription->plan_id;
+            $this->agreement_id = $localSubscription->agreement_id;
+            $this->save();
+        }
+        return $localSubscription;
+    }
+
+    /**
+     * Suspend a subscription in paypal.
+     *
+     * @param  string  $name
+     * @return \Insane\Treasurer\Models\Subscription|null
+     */
+    public function suspendSubscription($subscriptionId, $data)
+    {
+        $paypalService = new PaypalServiceV2();
+        $subscription = $paypalService->suspendSubscription($subscriptionId);
+        $localSubscription = Subscription::updateStatus($subscription->status, $subscription->id);
+        return $localSubscription;
+    }
+
+    /**
+     * Reactivate a subscription in paypal.
+     *
+     * @param  string  $name
+     * @return \Insane\Treasurer\Models\Subscription|null
+     */
+    public function reactivateSubscription($subscriptionId, $data)
+    {
+        $paypalService = new PaypalServiceV2();
+        $subscription = $paypalService->reactivateSubscription($subscriptionId);
+        $localSubscription = Subscription::updateStatus($subscription->status, $subscription->id);
+        return $localSubscription;
+    }
+
+    /**
+     * Cancel a subscription in paypal.
+     *
+     * @param  string  $name
+     * @return \Insane\Treasurer\Models\Subscription|null
+     */
+    public function cancelSubscription($subscriptionId, $data)
+    {
+        $paypalService = new PaypalServiceV2();
+        $subscription = $paypalService->cancelSubscription($subscriptionId);
+        $localSubscription = Subscription::updateStatus($subscription->status, $subscription->id);
+
+        if($localSubscription){
+            $this->customer_id = "";
+            $this->plan_id = "";
+            $this->agreement_id = "";
+            $this->save();
+        }
+        return $localSubscription;
+    }
+
+
+    /**
+     * get transactions.
+     *
+     * @param  string  $name
+     * @return \Insane\Treasurer\Models\Subscription|null
+     */
+    public function subscriptionTransactions($subscriptionId = null)
+    {
+        $paypalService = new PaypalServiceV2();
+        return $paypalService->subscriptionTransactions($subscriptionId ?? $this->agreement_id);
     }
 
     /**
