@@ -13,7 +13,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'insane:install ';
+    protected $signature = 'treasurer:install ';
 
     /**
      * The console command description.
