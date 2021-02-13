@@ -79,6 +79,14 @@ class PaypalServiceV2 {
         }
     }
 
+    public function syncSubscriptions($userId) {
+        $subscriptions = $this->getSubscriptions();
+        foreach ($subscriptions as $subscription) {
+            $planObject = $this->getPlans($plan->id);
+            Plan::createFromPaypalV2($planObject, $userId);
+        }
+    }
+
     public function syncPayments($userId) {
     //
     }

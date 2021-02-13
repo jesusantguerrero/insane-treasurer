@@ -3,6 +3,7 @@ namespace Insane\Treasurer;
 
 use Illuminate\Support\ServiceProvider;
 use Insane\Treasurer\Console\InstallCommand;
+use Insane\Treasurer\Console\SyncPlansCommand;
 
 class TreasurerServiceProvider extends ServiceProvider
 {
@@ -16,6 +17,7 @@ class TreasurerServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallCommand::class,
+                SyncPlansCommand::class
             ]);
         }
     }
