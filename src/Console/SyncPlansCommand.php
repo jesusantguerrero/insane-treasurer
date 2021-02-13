@@ -26,9 +26,9 @@ class SyncPlansCommand extends Command
      *
      * @return void
      */
-    public function handle($userId)
+    public function handle()
     {
-        $this->syncPlans($userId);
+        $this->syncPlans($this->argument('userId'));
     }
 
 
@@ -39,6 +39,7 @@ class SyncPlansCommand extends Command
      */
     protected function syncPlans($userId)
     {
+        print_r($userId);
         $paypalService = new PaypalServiceV2();
         $paypalService->syncPlans($userId);
     }

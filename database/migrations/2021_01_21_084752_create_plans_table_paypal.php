@@ -17,11 +17,11 @@ class CreatePlansTablePaypal extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->string('name');
+            $table->json('details');
             $table->string('paypal_plan_status');
             $table->string('paypal_plan_id')->nullable();
             $table->integer('quantity')->nullable();
             $table->timestamps();
-
             $table->index(['user_id', 'paypal_plan_status']);
         });
     }
