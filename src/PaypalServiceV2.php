@@ -35,22 +35,22 @@ class PaypalServiceV2 {
 
     private function setSettings() {
         // Detect if we are running in live mode or sandbox
-           if(config('paypal.settings.mode') == 'live'){
-            $this->client_id = config('paypal.live_client_id');
-            $this->secret = config('paypal.live_secret');
+           if(config('treasurer.settings.mode') == 'live'){
+            $this->client_id = config('treasurer.live_client_id');
+            $this->secret = config('treasurer.live_secret');
         } else {
             $this->plan_id = getenv('PAYPAL_SANDBOX_PLAN_ID');
-            $this->client_id = config('paypal.sandbox_client_id');
-            $this->secret = config('paypal.sandbox_secret');
+            $this->client_id = config('treasurer.sandbox_client_id');
+            $this->secret = config('treasurer.sandbox_secret');
         }
     }
 
     static function getSettings() {
         // Detect if we are running in live mode or sandbox
-           $mode = config('paypal.settings.mode') == 'live' ? 'live' : 'sandbox';
+           $mode = config('treasurer.settings.mode') == 'live' ? 'live' : 'sandbox';
             $settings = [
-                "client_id" => config("paypal.{$mode}_client_id"),
-                "secret" => config("paypal.{$mode}_secret")
+                "client_id" => config("treasurer.{$mode}_client_id"),
+                "secret" => config("treasurer.{$mode}_secret")
             ];
             return $settings;
     }

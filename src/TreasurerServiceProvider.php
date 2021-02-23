@@ -12,7 +12,7 @@ class TreasurerServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        $this->publishes([__DIR__.'/../config/paypal.php' => config_path('paypal.php')], 'insane-paypal-config');
+        $this->publishes([__DIR__.'/../config/treasurer.php' => config_path('treasurer.php')], 'insane-paypal-config');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
