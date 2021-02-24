@@ -22,4 +22,4 @@ Treasurer provides subscription billing flow using paypal API.
 
 ## License
 
-Laravel Cashier Paddle is open-sourced software licensed under the [MIT license](LICENSE.md).
+Treasurer is open-sourced software licensed under the [MIT license](LICENSE.md).
