@@ -26,4 +26,30 @@ class TreasurerServiceProvider extends ServiceProvider
     {
 
     }
+
+
+    /**
+     * Configure publishing for the package.
+     *
+     * @return void
+     */
+    protected function configurePublishing()
+    {
+        if (! $this->app->runningInConsole()) {
+            return;
+        }
+
+        $this->publishes([
+            __DIR__.'/../config/treasurer.php' => config_path('treasurer.php'),
+        ], 'treasurer-config');
+
+
+        $this->publishes([
+            __DIR__.'/../routes/treasurer.php' => base_path('routes/web.php'),
+        ], 'treasurer-routes');
+
+        $this->publishes([
+            __DIR__.'/../stubs/inertia/resources/js/Pages/Billing' => resource_path('js/Pages/Billing'),
+        ], 'treasurer-pages');
+    }
 }

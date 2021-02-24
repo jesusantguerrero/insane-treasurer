@@ -29,7 +29,7 @@ class InstallCommand extends Command
      */
     public function handle()
     {
-        $this->installAccounting();
+        $this->installInertiaStack();
     }
 
 
@@ -38,10 +38,36 @@ class InstallCommand extends Command
      *
      * @return void
      */
-    protected function installAccounting()
+
+    /**
+     * Install the Inertia stack into the application.
+     *
+     * @return void
+     */
+    protected function installInertiaStack()
     {
-        $this->info('Inertia scaffolding installed successfully.');
-        $this->comment('Please execute the "npm install && npm run dev" command to build your assets.');
+
+          // Install NPM packages...
+          $this->updateNodePackages(function ($packages) {
+            return [
+                'date-fns' => '^2.16.1',
+            ] + $packages;
+        });
+
+        // Directories...
+        (new Filesystem)->ensureDirectoryExists(public_path('css'));
+        (new Filesystem)->ensureDirectoryExists(resource_path('css'));
+        (new Filesystem)->ensureDirectoryExists(resource_path('js/Treasurer'));
+        (new Filesystem)->ensureDirectoryExists(resource_path('js/Pages'));
+        (new Filesystem)->ensureDirectoryExists(resource_path('js/Pages/Billing'));
+
+        // Inertia Pages...
+        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/inertia/resources/js/Treasurer', resource_path('js/Treasurer'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/inertia/resources/js/Pages/Billing', resource_path('js/Pages/Billing'));
+
+        $this->line('');
+        $this->info('Inertia scaffolding for treasurer installed successfully.');
+        $this->comment('Please execute "npm install && npm run dev" to build your assets.');
     }
 
     /**

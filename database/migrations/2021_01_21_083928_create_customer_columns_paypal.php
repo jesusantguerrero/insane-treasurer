@@ -16,6 +16,7 @@ class CreateCustomerColumnsPaypal extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('customer_id')->nullable()->index();
             $table->string('plan_id')->nullable()->index();
+            $table->string('agreement_id')->nullable()->index();
             $table->timestamp('trial_ends_at')->nullable();
         });
     }

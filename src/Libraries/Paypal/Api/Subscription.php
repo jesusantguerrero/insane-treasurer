@@ -49,7 +49,7 @@ class Subscription {
         } catch (Exception $e) {
             return $e->getMessage();
         }
-        return json_decode($response->getBody())->transactions;
+        return json_decode($response->getBody());
     }
 
 }

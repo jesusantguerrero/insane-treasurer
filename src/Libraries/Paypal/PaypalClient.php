@@ -24,10 +24,10 @@ class PaypalClient
     public static function getSettings()
     {
         // Detect if we are running in live mode or sandbox
-        $mode = config('paypal.settings.mode') == 'live' ? 'live' : 'sandbox';
+        $mode = config('treasurer.settings.mode') == 'live' ? 'live' : 'sandbox';
         $settings = [
-            "client_id" => config("paypal.{$mode}_client_id"),
-            "secret" => config("paypal.{$mode}_secret")
+            "client_id" => config("treasurer.{$mode}_client_id"),
+            "secret" => config("treasurer.{$mode}_secret")
         ];
         return $settings;
     }
