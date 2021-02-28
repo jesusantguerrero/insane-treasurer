@@ -87,10 +87,6 @@ class PaypalServiceV2 {
         }
     }
 
-    public function syncPayments($userId) {
-    //
-    }
-
     // Subscriptions
     public function getSubscriptions($id) {
         return $this->apiContext->subscription->get($id);
