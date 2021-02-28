@@ -18,6 +18,7 @@ Route::middleware(config('jetstream.middleware', ['web']))->group(function() {
     Route::post('/v2/subscriptions/{id}/agreement/{agreementId}/suspend', [V2SubscriptionsController::class, 'paypalSuspend'])->name('paypal.suspend.2');
 
     Route::get('/billing', [BillingController::class, 'show'])->name('billing.show');
+    Route::get('/billing/payments', [BillingController::class, 'index'])->name('billing.index');
 });
 
 Route::middleware([])->prefix("api/v2")->group(function () {

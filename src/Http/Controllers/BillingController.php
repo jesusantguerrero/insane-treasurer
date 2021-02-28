@@ -25,13 +25,20 @@ class BillingController
 
     public function show(Request $request) {
         $user = $request->user();
-        $name = $request->routeName ?? "Billing";
 
         return Jetstream::inertia()->render($request, 'Billing/Show', [
             "plans" => Plan::all(),
             "subscriptions" => Subscription::where([
                 "user_id" => $user->id
             ])->get(),
+            "transactions" => function () use ($request) {
+                return $request->user()->subscriptionTransactions();
+            }
+        ]);
+    }
+
+    public function index(Request $request) {
+        return Jetstream::inertia()->render($request, 'Billing/Payments', [
             "transactions" => function () use ($request) {
                 return $request->user()->subscriptionTransactions();
             }

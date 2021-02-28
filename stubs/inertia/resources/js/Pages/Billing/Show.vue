@@ -21,7 +21,7 @@
 
                 <!-- Current Plan -->
                 <div class="subscriptions__container mb-10">
-                    <h4 class="font-bold mx-2 text-3xl mb-2 text-gray-400">Current Plan</h4>
+                    <h4 class="font-bold mx-2 text-lg mb-2 text-gray-400">Current Plan</h4>
                     <data-plan-card
                         v-for="plan in visibleSubscriptions"
                         :key="plan.id"
@@ -36,7 +36,7 @@
 
                 <!-- Plans -->
                 <div class="plans__container mt-5">
-                    <h4 class="font-bold mx-2 text-3xl mb-2 text-gray-400">Plans</h4>
+                    <h4 class="font-bold mx-2 text-lg b-2 text-gray-400">Plans</h4>
                     <div class="flex space-x-5">
                         <data-billing-card
                             v-for="plan in plans"
