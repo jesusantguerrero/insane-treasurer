@@ -17,7 +17,7 @@ Subscription implementation using paypal inspired in Laravel Cashier (Under deve
 
 ## Introduction
 
-Treasurer provides subscription billing flow using paypal API.
+Treasurer provides subscription billing flow using paypal API and a nice subscription screen using inertiajs.
 
 
 ## License
