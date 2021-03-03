@@ -111,6 +111,10 @@ class PaypalServiceV2 {
         }
     }
 
+    public function approveOrder($data) {
+        return $this->apiContext->subscription->approveOrder($data);
+    }
+
     public function suspendSubscription($id) {
         return $this->apiContext->subscription->suspend($id);
     }
@@ -125,6 +129,10 @@ class PaypalServiceV2 {
 
     public function subscriptionTransactions($id) {
         return $this->apiContext->subscription->transactions($id);
+    }
+
+    public function subscriptionTransaction($id) {
+        return $this->apiContext->subscription->transaction($id);
     }
 
     // api

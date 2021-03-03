@@ -98,6 +98,7 @@ trait ManagesSubscriptions
     {
         $paypalService = new PaypalServiceV2();
         $subscription = $paypalService->getSubscriptions($subscriptionId);
+        $paypalService->approveOrder($data);
         $localSubscription = Subscription::createFromPaypalv2($subscription, $data['plan_id'], $this);
 
         // if ($this->agreement_id) {
@@ -176,14 +177,27 @@ trait ManagesSubscriptions
     }
 
     /**
-     * Get a subscription instance by name.
+     * Get the active subscription instance.
      *
      * @param  string  $name
-     * @return \Laravel\Cashier\Subscription|null
+     * @return \Treasurer\Models\Subscription
      */
-    public function subscription($name = 'default')
+    public function subscription()
     {
-        return $this->subscriptions->where('name', $name)->first();
+        return $this->subscriptions->where('status', 'ACTIVE')->first();
+    }
+
+    /**
+     * Suspend a subscription in paypal.
+     *
+     * @param  string  $name
+     * @return \Insane\Treasurer\Models\Subscription|null
+     */
+    public function getPaypalSubscription()
+    {
+        $paypalService = new PaypalServiceV2();
+        $subscription = $this->subscription();
+        return $paypalService->getSubscriptions($subscription->agreement_id);
     }
 
     /**
@@ -193,6 +207,6 @@ trait ManagesSubscriptions
      */
     public function subscriptions()
     {
-        return $this->hasMany(Subscription::class, $this->getForeignKey())->orderBy('created_at', 'desc');
+        return $this->hasMany(Subscription::class, 'user_id')->orderBy('created_at', 'desc');
     }
 }

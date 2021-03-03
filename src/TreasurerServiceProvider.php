@@ -52,4 +52,14 @@ class TreasurerServiceProvider extends ServiceProvider
             __DIR__.'/../stubs/inertia/resources/js/Pages/Billing' => resource_path('js/Pages/Billing'),
         ], 'treasurer-pages');
     }
+
+        /**
+     * Register the package resources.
+     *
+     * @return void
+     */
+     protected function registerResources()
+     {
+         $this->loadViewsFrom(__DIR__.'/../resources/views', 'treasurer');
+     }
 }

@@ -5,6 +5,7 @@ use Insane\Treasurer\Http\Controllers\BillingController;
 use Insane\Treasurer\Http\Controllers\V2\PlansController as V2PlansController;
 use Insane\Treasurer\Http\Controllers\V2\ProductsController as V2ProductsController;
 use Insane\Treasurer\Http\Controllers\V2\SubscriptionsController as V2SubscriptionsController;
+use Illuminate\Http\Request;
 
 // resource route
 Route::middleware(config('jetstream.middleware', ['web']))->group(function() {
@@ -19,6 +20,14 @@ Route::middleware(config('jetstream.middleware', ['web']))->group(function() {
 
     Route::get('/billing', [BillingController::class, 'show'])->name('billing.show');
     Route::get('/billing/payments', [BillingController::class, 'index'])->name('billing.index');
+    Route::get('/billing/upgrade', [BillingController::class, 'upgrade'])->name('billing.upgrade');
+
+    Route::get('/user/invoice/{invoice}', function (Request $request, $invoiceId) {
+        return $request->user()->downloadInvoice($invoiceId, [
+            'vendor' => 'Your Company',
+            'product' => 'Your Product',
+        ]);
+    });
 });
 
 Route::middleware([])->prefix("api/v2")->group(function () {
