@@ -98,7 +98,6 @@ trait ManagesSubscriptions
     {
         $paypalService = new PaypalServiceV2();
         $subscription = $paypalService->getSubscriptions($subscriptionId);
-        $paypalService->approveOrder($data);
         $localSubscription = Subscription::createFromPaypalv2($subscription, $data['plan_id'], $this);
 
         // if ($this->agreement_id) {

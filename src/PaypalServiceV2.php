@@ -71,19 +71,12 @@ class PaypalServiceV2 {
         return $this->apiContext->plan->store($data);
     }
 
-    public function syncPlans($userId) {
-        $plans = $this->getPlans();
-        foreach ($plans as $plan) {
-            $planObject = $this->getPlans($plan->id);
-            Plan::createFromPaypalV2($planObject, $userId);
-        }
-    }
-
-    public function syncSubscriptions($userId) {
-        $subscriptions = $this->getSubscriptions();
-        foreach ($subscriptions as $subscription) {
-            $planObject = $this->getPlans($plan->id);
-            Plan::createFromPaypalV2($planObject, $userId);
+    public function syncPlans() {
+        $localPlans = config('treasurer.plans');
+        foreach ($localPlans as $plan) {
+            $planObject = $this->getPlans($plan['paypal_plan_id']);
+            Plan::createFromPaypalV2($planObject, $plan);
+            echo $plan['name'];
         }
     }
 

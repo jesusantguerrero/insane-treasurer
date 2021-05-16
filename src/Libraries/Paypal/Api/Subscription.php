@@ -61,7 +61,7 @@ class Subscription {
             "body" => json_encode($data)
         ]);
 
-        return json_decode($response->getBody());
+        return json_decode($result->getBody());
     }
 
 }
