@@ -12,7 +12,7 @@ class SyncPlansCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'treasurer:sync-plans {userId}';
+    protected $signature = 'treasurer:sync-plans';
 
     /**
      * The console command description.
@@ -28,7 +28,7 @@ class SyncPlansCommand extends Command
      */
     public function handle()
     {
-        $this->syncPlans($this->argument('userId'));
+        $this->syncPlans();
     }
 
 
@@ -37,10 +37,9 @@ class SyncPlansCommand extends Command
      *
      * @return void
      */
-    protected function syncPlans($userId)
+    protected function syncPlans()
     {
-        print_r($userId);
         $paypalService = new PaypalServiceV2();
-        $paypalService->syncPlans($userId);
+        $paypalService->syncPlans();
     }
 }
