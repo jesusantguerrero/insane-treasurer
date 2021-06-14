@@ -55,11 +55,18 @@ class InstallCommand extends Command
         });
 
         // Directories...
+        (new Filesystem)->ensureDirectoryExists(app_path('Actions/Atmosphere'));
         (new Filesystem)->ensureDirectoryExists(public_path('css'));
         (new Filesystem)->ensureDirectoryExists(resource_path('css'));
         (new Filesystem)->ensureDirectoryExists(resource_path('js/Treasurer'));
         (new Filesystem)->ensureDirectoryExists(resource_path('js/Pages'));
         (new Filesystem)->ensureDirectoryExists(resource_path('js/Pages/Billing'));
+
+        // Service Providers
+        copy(__DIR__.'/../../stubs/app/Providers/TreasurerServiceProvider.php', app_path('Providers/TreasurerServiceProvider.php')); 
+
+         // Actions...
+         copy(__DIR__.'/../../stubs/app/Actions/Atmosphere/ResolveBillable.php', app_path('Actions/Atmosphere/ResolveBillable.php'));
 
         // Inertia Pages...
         (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/inertia/resources/js/Treasurer', resource_path('js/Treasurer'));
@@ -67,6 +74,16 @@ class InstallCommand extends Command
 
         $this->line('');
         $this->info('Inertia scaffolding for treasurer installed successfully.');
+        
+        // Sync plans
+        (new Process(['php', 'artisan', 'treasurer:sync-plans'], base_path()))
+        ->setTimeout(null)
+        ->run(function ($type, $output) {
+            $this->output->write($output);
+        });
+        $this->line('');
+        $this->info('Paypal plans loaded successfully.');
+
         $this->comment('Please execute "npm install && npm run dev" to build your assets.');
     }
 
