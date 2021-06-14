@@ -3,6 +3,8 @@ namespace Insane\Treasurer\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Insane\Treasurer\PaypalService;
 use Insane\Treasurer\PaypalServiceV2;
 
@@ -22,11 +24,15 @@ Class Subscription extends Model {
         "next_payment"
     ];
 
+    public function biller() {
+        return $this->morphTo(__FUNCTION__, 'subscribable_type', 'subscribable_id');
+    }
+
     public function agreements() {
         return PaypalService::getAgreement($this->agreement_id)->toArray();
     }
 
-    public static function createFromPaypalV2($agreement, $planId, $user) {
+    public static function createFromPaypal($agreement, $planId, $user) {
         $paypalService = new PaypalServiceV2();
         $plan = $paypalService->getPlans($planId);
         return self::create([

@@ -14,4 +14,8 @@ trait Billable
     // use ManagesPaymentMethods;
     use ManagesSubscriptions;
     // use PerformsCharges;
+
+    public function resolve($callback) {
+        return $callback;
+    }
 }

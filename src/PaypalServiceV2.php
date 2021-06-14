@@ -39,7 +39,6 @@ class PaypalServiceV2 {
             $this->client_id = config('treasurer.live_client_id');
             $this->secret = config('treasurer.live_secret');
         } else {
-            $this->plan_id = getenv('PAYPAL_SANDBOX_PLAN_ID');
             $this->client_id = config('treasurer.sandbox_client_id');
             $this->secret = config('treasurer.sandbox_secret');
         }
@@ -47,12 +46,12 @@ class PaypalServiceV2 {
 
     static function getSettings() {
         // Detect if we are running in live mode or sandbox
-           $mode = config('treasurer.settings.mode') == 'live' ? 'live' : 'sandbox';
-            $settings = [
-                "client_id" => config("treasurer.{$mode}_client_id"),
-                "secret" => config("treasurer.{$mode}_secret")
-            ];
-            return $settings;
+        $mode = config('treasurer.settings.mode') == 'live' ? 'live' : 'sandbox';
+        $settings = [
+            "client_id" => config("treasurer.{$mode}_client_id"),
+            "secret" => config("treasurer.{$mode}_secret")
+        ];
+        return $settings;
     }
 
     public function getProducts($id = null) {

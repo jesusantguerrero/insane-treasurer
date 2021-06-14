@@ -2,17 +2,12 @@
 
 namespace Insane\Treasurer\Http\Controllers;
 
-use Insane\Treasurer\PaypalService;
-use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Inertia\Inertia;
+use Insane\Treasurer\Contracts\BillableEntity;
 use Insane\Treasurer\Models\Plan;
 use Insane\Treasurer\Invoice;
 use Insane\Treasurer\Models\Subscription;
-use Insane\Treasurer\PaypalServiceV2;
 use Laravel\Jetstream\Jetstream;
-use PayPal\Api\Agreement;
 
 class BillingController
 {
@@ -24,17 +19,13 @@ class BillingController
         $this->validationRules = [];
     }
 
-    public function show(Request $request) {
-        $user = $request->user();
+    public function show(Request $request, BillableEntity $billable) {
+        $biller = $billable->resolve($request);
 
         return Jetstream::inertia()->render($request, 'Billing/Show', [
             "plans" => Plan::orderBy('quantity')->get(),
-            "subscriptions" => Subscription::where([
-                "user_id" => $user->id
-            ])->get(),
-            "transactions" => function () use ($request) {
-                return $request->user()->subscriptionTransactions();
-            }
+            "subscriptions" => $biller ? $biller->subscriptions : [],
+            "transactions" => []
         ]);
     }
 

@@ -53,7 +53,7 @@ class TreasurerServiceProvider extends ServiceProvider
         ], 'treasurer-pages');
     }
 
-        /**
+    /**
      * Register the package resources.
      *
      * @return void

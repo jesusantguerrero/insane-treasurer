@@ -5,7 +5,10 @@ namespace Insane\Treasurer\Http\Controllers\V2;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Insane\Treasurer\Contracts\BillableEntity;
+use Insane\Treasurer\Models\Subscription;
 use Insane\Treasurer\PaypalServiceV2;
+use Insane\Treasurer\Treasurer;
 
 class SubscriptionsController
 {
@@ -34,22 +37,44 @@ class SubscriptionsController
         return redirect($approvalLink);
     }
 
-    public function save(Request $request) {
+    public function save(Request $request, BillableEntity $billable) {
         $subscriptionId = $request->subscriptionId;
         $data = $request->post();
-        return $request->user()->saveSubscription($subscriptionId, $data);
+
+        $paypalService = new PaypalServiceV2();
+        $subscription = $paypalService->getSubscriptions($subscriptionId);
+        $localSubscription = Subscription::createFromPaypal($subscription, $data['plan_id'], $request->user());
+
+        if (isset($localSubscription->agreement_id)) {
+            $biller = $billable->resolve($request);
+            $biller->customer_id = $localSubscription->customer_id;
+            $biller->plan_id = $localSubscription->plan_id;
+            $biller->agreement_id = $localSubscription->agreement_id;
+            $biller->trial_ends_at = null;
+            $biller->save();
+            $localSubscription->subscribable_type = Treasurer::$customerModel;
+            $localSubscription->subscribable_id = $biller->id;
+            $localSubscription->save();
+        }
+        return $localSubscription;
     }
 
     // Agreements operations
-    public function paypalCancel(Request $request, $id, $agreementId) {
-        return $request->user()->cancelSubscription($agreementId, $request->post());
+    public function paypalCancel(Request $request, $id, $subscriptionId) {
+        if ($biller = Treasurer::findBillableBySubscription($subscriptionId)) {
+            return $biller->cancelSubscription($subscriptionId, $request->post());
+        }
     }
 
-    public function paypalReactivate(Request $request, $id, $agreementId) {
-        return $request->user()->reactivateSubscription($agreementId, $request->post());
+    public function paypalReactivate(Request $request, $id, $subscriptionId) {
+        if ($biller = Treasurer::findBillableBySubscription($subscriptionId)) {
+            return $biller->reactivateSubscription($subscriptionId, $request->post());
+        }
     }
 
-    public function paypalSuspend(Request $request, $id, $agreementId) {
-        return $request->user()->suspendSubscription($agreementId, $request->post());
+    public function paypalSuspend(Request $request, $id, $subscriptionId) {
+        if ($biller = Treasurer::findBillableBySubscription($subscriptionId)) {
+            return $biller->suspendSubscription($subscriptionId, $request->post());
+        }
     }
 }

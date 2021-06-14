@@ -13,5 +13,4 @@ class Plan {
         $this->endpoint = self::ENDPOINT;
         $this->resultName = "plans";
     }
-
 }

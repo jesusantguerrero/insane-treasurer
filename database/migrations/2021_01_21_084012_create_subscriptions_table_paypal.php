@@ -14,8 +14,10 @@ class CreateSubscriptionsTablePaypal extends Migration
     public function up()
     {
         Schema::create('subscriptions', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
+            $table->id();
+            $table->foreignId('user_id');
+            $table->foreignId('subscribable_id');
+            $table->string('subscribable_type');
             $table->string('name');
             $table->string('customer_id');
             $table->string('status');

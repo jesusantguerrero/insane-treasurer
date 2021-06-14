@@ -89,37 +89,12 @@ trait ManagesSubscriptions
     }
 
     /**
-     * Get a subscription instance by name.
-     *
-     * @param  string  $name
-     * @return \Insane\Treasurer\Models\Subscription|null
-     */
-    public function saveSubscription($subscriptionId, $data)
-    {
-        $paypalService = new PaypalServiceV2();
-        $subscription = $paypalService->getSubscriptions($subscriptionId);
-        $localSubscription = Subscription::createFromPaypalv2($subscription, $data['plan_id'], $this);
-
-        // if ($this->agreement_id) {
-        //     $this->cancelSubscription($subscriptionId, $data);
-        // }
-
-        if(isset($localSubscription->agreement_id)){
-            $this->customer_id = $localSubscription->customer_id;
-            $this->plan_id = $localSubscription->plan_id;
-            $this->agreement_id = $localSubscription->agreement_id;
-            $this->save();
-        }
-        return $localSubscription;
-    }
-
-    /**
      * Suspend a subscription in paypal.
      *
      * @param  string  $name
      * @return \Insane\Treasurer\Models\Subscription|null
      */
-    public function suspendSubscription($subscriptionId, $data)
+    public function suspendSubscription($subscriptionId)
     {
         $paypalService = new PaypalServiceV2();
         $subscription = $paypalService->suspendSubscription($subscriptionId);
@@ -133,7 +108,7 @@ trait ManagesSubscriptions
      * @param  string  $name
      * @return \Insane\Treasurer\Models\Subscription|null
      */
-    public function reactivateSubscription($subscriptionId, $data)
+    public function reactivateSubscription($subscriptionId)
     {
         $paypalService = new PaypalServiceV2();
         $subscription = $paypalService->reactivateSubscription($subscriptionId);
@@ -147,7 +122,7 @@ trait ManagesSubscriptions
      * @param  string  $name
      * @return \Insane\Treasurer\Models\Subscription|null
      */
-    public function cancelSubscription($subscriptionId, $data)
+    public function cancelSubscription($subscriptionId)
     {
         $paypalService = new PaypalServiceV2();
         $subscription = $paypalService->cancelSubscription($subscriptionId);
@@ -206,6 +181,6 @@ trait ManagesSubscriptions
      */
     public function subscriptions()
     {
-        return $this->hasMany(Subscription::class, 'user_id')->orderBy('created_at', 'desc');
+        return $this->morphMany(Subscription::class, 'subscribable')->orderBy('created_at', 'desc');
     }
 }

@@ -13,6 +13,8 @@ trait ApiBehavior {
         try {
             $response = $this->apiContext->client->get($url);
         } catch (Exception $e) {
+            dd($e);
+            die();
             return $e->getMessage();
         }
         $name = $this->resultName;
