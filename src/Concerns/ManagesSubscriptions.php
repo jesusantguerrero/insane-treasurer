@@ -158,7 +158,7 @@ trait ManagesSubscriptions
      */
     public function subscription()
     {
-        return $this->subscriptions->where('status', 'ACTIVE')->first();
+        return $this->morphMany(Subscription::class, 'subscribable')->limit(1)->where('status', 'ACTIVE');
     }
 
     /**
