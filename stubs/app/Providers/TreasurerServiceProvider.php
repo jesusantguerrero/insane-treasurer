@@ -2,11 +2,9 @@
 
 namespace App\Providers;
 
-use App\Actions\Atmosphere\ResolveBillable;
-use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
-use Insane\Treasurer\Treasurer;
+use Insane\Treasurer\TreasurerFacade;
 
 class TreasurerServiceProvider extends ServiceProvider
 {
@@ -27,7 +25,8 @@ class TreasurerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Treasurer::useCustomerModel(Team::class);
-        Treasurer::useBiller(ResolveBillable::class);
+       TreasurerFacade::billable(Team::class)->resolve(function (Request $request) {
+        return $request->user()->currentTeam;
+       });
     }
 }

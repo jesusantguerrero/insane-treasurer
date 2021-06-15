@@ -8,8 +8,7 @@ use Insane\Treasurer\Http\Controllers\V2\SubscriptionsController as V2Subscripti
 use Illuminate\Http\Request;
 
 // resource route
-Route::middleware(config('jetstream.middleware', ['web']))->group(function() {
-    // Support paypal v2
+Route::middleware(['web', 'treasurer.biller'])->group(function() {
     Route::get('/v2/subscriptions/return', [V2SubscriptionsController::class, 'return'])->name('paypal.return.2');
     Route::get('/v2/subscriptions/{planId}/subscribe', [V2SubscriptionsController::class, 'subscribe'])->name('paypal.subscribe.2');
     Route::post('/v2/subscriptions/{subscriptionId}/save', [V2SubscriptionsController::class, 'save'])->name('paypal.save.2');
@@ -30,7 +29,7 @@ Route::middleware(config('jetstream.middleware', ['web']))->group(function() {
     });
 });
 
-Route::middleware([])->prefix("api/v2")->group(function () {
+Route::middleware(['treasurer.biller'])->prefix("api/v2")->group(function () {
     Route::get('/products', [V2ProductsController::class, 'index']);
     Route::post('/products', [V2ProductsController::class, 'store']);
 
