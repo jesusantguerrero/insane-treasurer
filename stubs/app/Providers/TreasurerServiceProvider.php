@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Actions\Atmosphere\ResolveBillable;
 use App\Models\Team;
-use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use Insane\Treasurer\Treasurer;
 
