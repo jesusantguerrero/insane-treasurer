@@ -10,7 +10,7 @@ class ApiContext {
     private $tokenType;
     private $client_id;
     private $secret;
-    private const SANDBOX_URL = "https://api-m.sandbox.paypal.com/v1/";
+    private const SANDBOX_URL = "https://api-m.sandbox.paypal.com/v1";
     private const GRAND_TYPE = "client_credentials";
 
     public function __construct($options)
@@ -42,7 +42,7 @@ class ApiContext {
         $this->setTokens($this->getAccessToken());
 
         return new Client([
-            "base_uri" => self::SANDBOX_URL,
+            "base_uri" => self::SANDBOX_URL . "/",
             "headers" => [
                 "Authorization" => "$this->tokenType ". $this->accessToken
             ]

@@ -18,7 +18,7 @@ class EnsureIsBiller
     public function handle(Request $request, Closure $next)
     {
         $currentUser = $request->user();
-        if (!$currentUser->ownsTeam($currentUser->currentTeam)) {
+        if (!$currentUser || !$currentUser->ownsTeam($currentUser->currentTeam)) {
             return Redirect(RouteServiceProvider::HOME);
         }
         return $next($request);
