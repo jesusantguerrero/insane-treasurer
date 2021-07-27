@@ -42,11 +42,11 @@ class SubscriptionsController
         $data = $request->post();
 
         $paypalService = new PaypalServiceV2();
+        $biller = $billable->resolve($request);
         $subscription = $paypalService->getSubscriptions($subscriptionId);
-        $localSubscription = Subscription::createFromPaypal($subscription, $data['plan_id'], $request->user());
+        $localSubscription = Subscription::createFromPaypal($subscription, $data['plan_id'], $request->user(), $biller);
 
         if (isset($localSubscription->agreement_id)) {
-            $biller = $billable->resolve($request);
             $biller->customer_id = $localSubscription->customer_id;
             $biller->plan_id = $localSubscription->plan_id;
             $biller->agreement_id = $localSubscription->agreement_id;

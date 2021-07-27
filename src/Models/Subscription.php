@@ -11,6 +11,8 @@ use Insane\Treasurer\PaypalServiceV2;
 Class Subscription extends Model {
     protected $fillable = [
         "user_id",
+        "subscribable_id",
+        "subscribable_type",
         "name",
         "agreement_id",
         "customer_id",
@@ -32,11 +34,13 @@ Class Subscription extends Model {
         return PaypalService::getAgreement($this->agreement_id)->toArray();
     }
 
-    public static function createFromPaypal($agreement, $planId, $user) {
+    public static function createFromPaypal($agreement, $planId, $user, $biller) {
         $paypalService = new PaypalServiceV2();
         $plan = $paypalService->getPlans($planId);
         return self::create([
             "user_id" => $user->id,
+            "subscribable_id" => $biller->id,
+            "subscribable_type" => get_class($biller),
             "name" => $plan->name,
             "agreement_id" => $agreement->id,
             "customer_id" => $agreement->subscriber->payer_id,
