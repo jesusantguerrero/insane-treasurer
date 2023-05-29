@@ -1,6 +1,6 @@
 <?php
 
-namespace Insane\Treasurer;
+namespace Insane\Treasurer\Services;
 
 
 // Used to process plans

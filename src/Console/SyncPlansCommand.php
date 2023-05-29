@@ -3,7 +3,7 @@
 namespace Insane\Treasurer\Console;
 
 use Illuminate\Console\Command;
-use Insane\Treasurer\PaypalServiceV2;
+use Insane\Treasurer\BillingService;
 
 class SyncPlansCommand extends Command
 {
@@ -39,7 +39,7 @@ class SyncPlansCommand extends Command
      */
     protected function syncPlans()
     {
-        $paypalService = new PaypalServiceV2();
-        $paypalService->syncPlans();
+        $service = new BillingService();
+        $service->syncPlans();
     }
 }

@@ -26,8 +26,14 @@ Class Subscription extends Model {
         "next_payment"
     ];
 
+    protected $with = ['plan', 'biller'];
+
     public function biller() {
         return $this->morphTo(__FUNCTION__, 'subscribable_type', 'subscribable_id');
+    }
+
+    public function plan() {
+        return $this->belongsTo(Plan::class);
     }
 
     public function agreements() {
@@ -52,6 +58,27 @@ Class Subscription extends Model {
             "next_billing_date" => (new Carbon($agreement->billing_info->next_billing_time))->toDateTimeString(),
             "last_payment" => json_encode($agreement->billing_info->last_payment),
             "next_payment" => json_encode($agreement->billing_info->outstanding_balance),
+        ]);
+    }
+
+    public static function createFromLocal($planId, $user, $biller) {
+        $plan = Plan::find($planId);
+
+        return self::create([
+            "user_id" => $user->id,
+            "subscribable_id" => $biller->id,
+            "subscribable_type" => get_class($biller),
+            "name" => $plan->name,
+            "agreement_id" => '',
+            "customer_id" => $user->id,
+            "status" => 'active',
+            "plan_id" => $planId,
+            "paypal_plan_id" => $planId,
+            "quantity" => $plan->quantity,
+            "last_payment_date" => now()->toDateTimeString(),
+            "next_billing_date" => now()->addMonthsNoOverflow(1),
+            "last_payment" => $plan->quantity,
+            "next_payment" => $plan->quantity,
         ]);
     }
 
