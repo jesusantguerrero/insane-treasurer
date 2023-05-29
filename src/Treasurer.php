@@ -2,7 +2,6 @@
 
 namespace Insane\Treasurer;
 
-use Illuminate\Http\Request;
 use Insane\Treasurer\Contracts\BillableEntity;
 use Insane\Treasurer\Models\Subscription;
 

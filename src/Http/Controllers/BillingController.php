@@ -11,18 +11,20 @@ use Laravel\Jetstream\Jetstream;
 
 class BillingController
 {
+    private $billable;
 
-    public function __construct()
+    public function __construct(BillableEntity $billable)
     {
         $this->model = new Plan();
         $this->searchable = ['name'];
         $this->validationRules = [];
+        $this->billable = $billable;
     }
 
-    public function show(Request $request, BillableEntity $billable) {
-        $biller = $billable->resolve($request);
+    public function show(Request $request) {
+        $biller = $this->billable->resolve($request);
 
-        return Jetstream::inertia()->render($request, 'Billing/Show', [
+        return inertia('Billing/Show', [
             "plans" => Plan::orderBy('quantity')->get(),
             "subscriptions" => $biller ? $biller->subscriptions : [],
             "transactions" => []

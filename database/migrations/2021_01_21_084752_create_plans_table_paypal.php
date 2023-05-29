@@ -16,14 +16,14 @@ class CreatePlansTablePaypal extends Migration
         Schema::create('plans', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->string('name');
+            $table->string('name')->unique();
+            $table->string('display_name');
             $table->json('details');
             $table->json('features');
             $table->string('paypal_plan_status');
             $table->string('paypal_plan_id')->nullable();
             $table->integer('quantity')->nullable();
             $table->timestamps();
-            $table->index(['user_id', 'paypal_plan_status']);
         });
     }
 
