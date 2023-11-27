@@ -6,11 +6,11 @@ namespace Insane\Treasurer\Services;
 // Used to process plans
 
 use Exception;
-use PayPal\Rest\ApiContext;
-use PayPal\Auth\OAuthTokenCredential;
 use GuzzleHttp\Client;
-use Insane\Treasurer\Libraries\Paypal\PaypalClient;
+use PayPal\Rest\ApiContext;
 use Insane\Treasurer\Models\Plan;
+use PayPal\Auth\OAuthTokenCredential;
+use Insane\Treasurer\Libraries\Paypal\PaypalClient;
 
 class PaypalServiceV2 {
     private $apiContext;
@@ -73,9 +73,12 @@ class PaypalServiceV2 {
     public function syncPlans() {
         $localPlans = config('treasurer.plans');
         foreach ($localPlans as $plan) {
-            $planObject = $this->getPlans($plan['paypal_plan_id']);
-            Plan::createFromPaypalV2($planObject, $plan);
-            echo $plan['name'];
+            if (isset($plan['paypal_plan_id'])) {
+                $planObject = $this->getPlans($plan['paypal_plan_id']);
+                Plan::createFromPaypalV2($planObject, $plan);
+
+                echo $plan['name'];
+            }
         }
     }
 

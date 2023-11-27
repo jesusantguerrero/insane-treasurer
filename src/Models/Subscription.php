@@ -3,8 +3,7 @@ namespace Insane\Treasurer\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Insane\Treasurer\PaypalService;
-use Insane\Treasurer\PaypalServiceV2;
+use Insane\Treasurer\Services\PaypalServiceV2;
 
 Class Subscription extends Model {
     protected $fillable = [
@@ -35,6 +34,7 @@ Class Subscription extends Model {
     }
 
     public function agreements() {
+        $paypalService = new PaypalServiceV2();
         return PaypalService::getAgreement($this->agreement_id)->toArray();
     }
 
