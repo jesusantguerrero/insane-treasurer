@@ -3,8 +3,6 @@ namespace Insane\Treasurer\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Insane\Treasurer\PaypalService;
 use Insane\Treasurer\PaypalServiceV2;
 
@@ -91,7 +89,6 @@ Class Subscription extends Model {
                 ]);
         }
     }
-
 
     public static function getSubscriptionByAgreementId($agreementId) {
         $subscriptions = Subscription::where([

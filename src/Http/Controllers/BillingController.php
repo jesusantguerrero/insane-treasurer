@@ -3,11 +3,11 @@
 namespace Insane\Treasurer\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Insane\Treasurer\Contracts\BillableEntity;
-use Insane\Treasurer\Models\Plan;
 use Insane\Treasurer\Invoice;
-use Insane\Treasurer\Models\Subscription;
 use Laravel\Jetstream\Jetstream;
+use Insane\Treasurer\Models\Plan;
+use Insane\Treasurer\Models\Subscription;
+use Insane\Treasurer\Contracts\BillableEntity;
 
 class BillingController
 {
@@ -33,23 +33,22 @@ class BillingController
 
     public function upgrade(Request $request) {
         $user = $request->user();
+        $biller = $this->billable->resolve($request);
 
         return Jetstream::inertia()->render($request, 'Billing/Upgrade', [
             "plans" => Plan::orderBy('quantity')->get(),
             "subscriptions" => Subscription::where([
                 "user_id" => $user->id
             ])->get(),
-            "transactions" => function () use ($request) {
-                return $request->user()->subscriptionTransactions();
-            }
+            "transactions" => fn () => $biller->subscriptionTransactions()
         ]);
     }
 
     public function index(Request $request) {
+        $biller = $this->billable->resolve($request);
+
         return Jetstream::inertia()->render($request, 'Billing/Payments', [
-            "transactions" => function () use ($request) {
-                return $request->user()->subscriptionTransactions();
-            }
+            "transactions" => fn () => $biller->subscriptionTransactions()
         ]);
     }
 

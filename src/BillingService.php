@@ -4,9 +4,6 @@ namespace Insane\Treasurer;
 
 
 // Used to process plans
-
-use Exception;
-use Insane\Treasurer\Libraries\Paypal\PaypalClient;
 use Insane\Treasurer\Services\LocalBillingService;
 use Insane\Treasurer\Services\PaypalServiceV2;
 
