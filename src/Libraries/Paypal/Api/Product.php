@@ -2,7 +2,6 @@
 namespace Insane\Treasurer\Libraries\Paypal\Api;
 
 use Exception;
-use GuzzleHttp\Client;
 use Insane\Treasurer\Libraries\Paypal\Auth\ApiContext;
 
 class Product {

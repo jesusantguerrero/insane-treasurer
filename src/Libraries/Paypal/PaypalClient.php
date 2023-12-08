@@ -3,8 +3,8 @@
 use GuzzleHttp\Client;
 use Insane\Treasurer\Libraries\Paypal\Api\Plan;
 use Insane\Treasurer\Libraries\Paypal\Api\Product;
-use Insane\Treasurer\Libraries\Paypal\Api\Subscription;
 use Insane\Treasurer\Libraries\Paypal\Auth\ApiContext;
+use Insane\Treasurer\Libraries\Paypal\Api\Subscription;
 
 class PaypalClient
 {
@@ -25,9 +25,10 @@ class PaypalClient
     {
         // Detect if we are running in live mode or sandbox
         $mode = config('treasurer.settings.mode') == 'live' ? 'live' : 'sandbox';
+        $driver = config('treasurer.driver');
         $settings = [
-            "client_id" => config("treasurer.{$mode}_client_id"),
-            "secret" => config("treasurer.{$mode}_secret")
+            "client_id" => config("treasurer.drivers.{$driver}.{$mode}_client_id"),
+            "secret" => config("treasurer.drivers.{$driver}.{$mode}_secret")
         ];
         return $settings;
     }

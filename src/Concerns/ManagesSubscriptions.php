@@ -2,9 +2,9 @@
 
 namespace Insane\Treasurer\Concerns;
 
-use Insane\Treasurer\Models\Subscription;
 use Insane\Treasurer\PaypalService;
-use Insane\Treasurer\PaypalServiceV2;
+use Insane\Treasurer\Models\Subscription;
+use Insane\Treasurer\Services\PaypalServiceV2;
 
 trait ManagesSubscriptions
 {

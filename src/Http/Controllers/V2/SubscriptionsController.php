@@ -5,10 +5,10 @@ namespace Insane\Treasurer\Http\Controllers\V2;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Insane\Treasurer\Contracts\BillableEntity;
-use Insane\Treasurer\Models\Subscription;
-use Insane\Treasurer\PaypalServiceV2;
 use Insane\Treasurer\Treasurer;
+use Insane\Treasurer\Models\Subscription;
+use Insane\Treasurer\Contracts\BillableEntity;
+use Insane\Treasurer\Services\PaypalServiceV2;
 
 class SubscriptionsController
 {
@@ -18,7 +18,7 @@ class SubscriptionsController
             $result = $paypalService->getSubscriptions($id);
             return $response->setContent([
                 "data" => $result
-            ])->setStatusCode(RESPONSE::HTTP_OK);
+            ])->setStatusCode(Response::HTTP_OK);
         } catch (Exception $e) {
             return $e->getMessage();
         }

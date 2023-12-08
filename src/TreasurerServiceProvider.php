@@ -11,8 +11,11 @@ class TreasurerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        $this->publishes([__DIR__.'/../config/treasurer.php' => config_path('treasurer.php')], 'insane-paypal-config');
+        $this->registerMigrations();
+        $this->publishes([
+            __DIR__.'/../config/treasurer.php' => config_path('treasurer.php')
+        ], 'treasurer-config');
+        $this->configurePublishing();
 
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -51,6 +54,10 @@ class TreasurerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../stubs/inertia/resources/js/Pages/Billing' => resource_path('js/Pages/Billing'),
         ], 'treasurer-pages');
+
+        $this->publishes([
+            __DIR__.'/../database/migrations' => $this->app->databasePath('migrations'),
+        ], 'treasurer-migrations');
     }
 
     /**
@@ -61,5 +68,12 @@ class TreasurerServiceProvider extends ServiceProvider
      protected function registerResources()
      {
          $this->loadViewsFrom(__DIR__.'/../resources/views', 'treasurer');
+     }
+
+     protected function registerMigrations()
+     {
+         if (Treasurer::$runsMigrations && $this->app->runningInConsole()) {
+             $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+         }
      }
 }
