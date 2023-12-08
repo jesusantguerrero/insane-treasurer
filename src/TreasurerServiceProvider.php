@@ -11,7 +11,7 @@ class TreasurerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->registerMigrations();
         $this->publishes([
             __DIR__.'/../config/treasurer.php' => config_path('treasurer.php')
         ], 'treasurer-config');
@@ -68,5 +68,12 @@ class TreasurerServiceProvider extends ServiceProvider
      protected function registerResources()
      {
          $this->loadViewsFrom(__DIR__.'/../resources/views', 'treasurer');
+     }
+
+     protected function registerMigrations()
+     {
+         if (Treasurer::$runsMigrations && $this->app->runningInConsole()) {
+             $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+         }
      }
 }
