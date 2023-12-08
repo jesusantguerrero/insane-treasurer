@@ -28,6 +28,10 @@ class Treasurer
         static::$customerModel = $model;
     }
 
+    public static function ignoreMigrations() {
+        static::$runsMigrations = false;
+    }
+
     public static function findBillableBySubscription($subscriptionId) {
         return $subscriptionId ? Subscription::where('agreement_id', $subscriptionId)->first()->biller: null;
     }
