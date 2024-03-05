@@ -2,17 +2,16 @@
 
 namespace Insane\Treasurer\Models;
 
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 
-class Plan extends Model
+class SubscriptionPlan extends Model
 {
-    protected $fillable = [ 
-        "name", 
-        "paypal_plan_id", 
+    protected $fillable = [
+        "name",
+        "paypal_plan_id",
         "features",
-        "quantity", 
-        "details", 
+        "quantity",
+        "details",
         "paypal_plan_status"
     ];
 

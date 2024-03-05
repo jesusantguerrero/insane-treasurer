@@ -8,8 +8,8 @@ namespace Insane\Treasurer\Services;
 use Exception;
 use GuzzleHttp\Client;
 use PayPal\Rest\ApiContext;
-use Insane\Treasurer\Models\Plan;
 use PayPal\Auth\OAuthTokenCredential;
+use Insane\Treasurer\Models\SubscriptionPlan;
 use Insane\Treasurer\Libraries\Paypal\PaypalClient;
 
 class PaypalServiceV2 {
@@ -75,7 +75,7 @@ class PaypalServiceV2 {
         foreach ($localPlans as $plan) {
             if (isset($plan['paypal_plan_id'])) {
                 $planObject = $this->getPlans($plan['paypal_plan_id']);
-                Plan::createFromPaypalV2($planObject, $plan);
+                SubscriptionPlan::createFromPaypalV2($planObject, $plan);
 
                 echo $plan['name'];
             }

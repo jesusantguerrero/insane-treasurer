@@ -2,21 +2,21 @@
 
 namespace Insane\Treasurer\Http\Controllers\V2;
 
-use Insane\Treasurer\PaypalService;
 use Exception;
+use PayPal\Api\Agreement;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Insane\Treasurer\Models\Plan as ModelsPlan;
-use Insane\Treasurer\Models\Subscription;
+use Insane\Treasurer\PaypalService;
 use Insane\Treasurer\PaypalServiceV2;
-use PayPal\Api\Agreement;
+use Insane\Treasurer\Models\Subscription;
+use Insane\Treasurer\Models\SubscriptionPlan;
 
 class ProductsController
 {
 
     public function __construct()
     {
-        $this->model = new ModelsPlan();
+        $this->model = new SubscriptionPlan();
         $this->searchable = ['name'];
         $this->validationRules = [];
     }

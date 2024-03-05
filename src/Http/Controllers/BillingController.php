@@ -4,8 +4,8 @@ namespace Insane\Treasurer\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Insane\Treasurer\Invoice;
-use Insane\Treasurer\Models\Plan;
 use Insane\Treasurer\Models\Subscription;
+use Insane\Treasurer\Models\SubscriptionPlan;
 use Insane\Treasurer\Contracts\BillableEntity;
 
 class BillingController
@@ -14,7 +14,7 @@ class BillingController
 
     public function __construct(BillableEntity $billable)
     {
-        $this->model = new Plan();
+        $this->model = new SubscriptionPlan();
         $this->searchable = ['name'];
         $this->validationRules = [];
         $this->billable = $billable;
@@ -24,7 +24,7 @@ class BillingController
         $biller = $this->billable->resolve($request);
 
         return inertia('Billing/Show', [
-            "plans" => Plan::orderBy('quantity')->get(),
+            "plans" => SubscriptionPlan::orderBy('quantity')->get(),
             "subscriptions" => $biller ? $biller->subscriptions : [],
             "transactions" => []
         ]);
@@ -35,7 +35,7 @@ class BillingController
         $biller = $this->billable->resolve($request);
 
         return inertia('Billing/Upgrade', [
-            "plans" => Plan::orderBy('quantity')->get(),
+            "plans" => SubscriptionPlan::orderBy('quantity')->get(),
             "subscriptions" => Subscription::where([
                 "user_id" => $user->id
             ])->get(),
