@@ -3,9 +3,9 @@
 namespace Insane\Treasurer\Services;
 
 use Exception;
-use Insane\Treasurer\Libraries\Paypal\PaypalClient;
-use Insane\Treasurer\Models\Plan;
 use Insane\Treasurer\Models\Subscription;
+use Insane\Treasurer\Models\SubscriptionPlan;
+use Insane\Treasurer\Libraries\Paypal\PaypalClient;
 
 class LocalBillingService {
     private $apiContext;
@@ -28,7 +28,7 @@ class LocalBillingService {
 
     public function syncPlans(mixed $localPlans) {
         foreach ($localPlans as $plan) {
-            Plan::createFromConfig($plan);
+            SubscriptionPlan::createFromConfig($plan);
             echo $plan['name'];
         }
     }

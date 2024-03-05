@@ -30,7 +30,7 @@ Class Subscription extends Model {
     }
 
     public function plan() {
-        return $this->belongsTo(Plan::class);
+        return $this->belongsTo(SubscriptionPlan::class);
     }
 
     public function agreements() {
@@ -60,7 +60,7 @@ Class Subscription extends Model {
     }
 
     public static function createFromLocal($planId, $user, $biller) {
-        $plan = Plan::find($planId);
+        $plan = SubscriptionPlan::find($planId);
 
         return self::create([
             "user_id" => $user->id,

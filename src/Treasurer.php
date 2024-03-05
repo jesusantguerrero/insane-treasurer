@@ -2,9 +2,9 @@
 
 namespace Insane\Treasurer;
 
-use Insane\Treasurer\Models\Plan;
 use Insane\Treasurer\Models\Subscription;
 use Insane\Treasurer\Models\SubscriptionItem;
+use Insane\Treasurer\Models\SubscriptionPlan;
 use Insane\Treasurer\Contracts\BillableEntity;
 
 class Treasurer
@@ -22,7 +22,7 @@ class Treasurer
     public static $customerModel = 'App\\Models\\User';
     public static $subscriptionModel = Subscription::class;
     public static $subscriptionItemModel = SubscriptionItem::class;
-    public static $planModel = Plan::class;
+    public static $planModel = SubscriptionPlan::class;
 
     public static function useCustomerModel(string $model) {
         static::$customerModel = $model;
