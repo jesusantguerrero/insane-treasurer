@@ -7,7 +7,6 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\View;
-use Laravel\Cashier\Exceptions\InvalidInvoice;
 use Symfony\Component\HttpFoundation\Response;
 
 class Invoice
