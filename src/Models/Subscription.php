@@ -25,6 +25,11 @@ Class Subscription extends Model {
 
     protected $with = ['plan', 'biller'];
 
+    protected $casts = [
+        'next_billing_date' => 'date'
+    ];
+  
+
     public function biller() {
         return $this->morphTo(__FUNCTION__, 'subscribable_type', 'subscribable_id');
     }

@@ -2,8 +2,8 @@
 
 namespace Insane\Treasurer\Services;
 
-use Exception;
 use Insane\Treasurer\Models\Subscription;
+use Insane\Journal\Models\Invoice\Invoice;
 use Insane\Treasurer\Models\SubscriptionPlan;
 use Insane\Treasurer\Libraries\Paypal\PaypalClient;
 
@@ -59,7 +59,10 @@ class LocalBillingService {
     }
 
     public function subscriptionTransactions($id) {
-        return $this->apiContext->subscription->transactions($id);
+        return Invoice::where([
+            'invoiceable_type' => Subscription::class,
+            'invoiceable_id' => $id
+        ])->get();
     }
 
     public function subscriptionTransaction($id) {

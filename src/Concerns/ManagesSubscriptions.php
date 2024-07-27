@@ -3,6 +3,7 @@
 namespace Insane\Treasurer\Concerns;
 
 use Insane\Treasurer\PaypalService;
+use Insane\Treasurer\BillingService;
 use Insane\Treasurer\Models\Subscription;
 use Insane\Treasurer\Services\PaypalServiceV2;
 
@@ -146,7 +147,7 @@ trait ManagesSubscriptions
      */
     public function subscriptionTransactions($subscriptionId = null)
     {
-        $paypalService = new PaypalServiceV2();
+        $paypalService = new BillingService();
         return $paypalService->subscriptionTransactions($subscriptionId ?? $this->agreement_id);
     }
 

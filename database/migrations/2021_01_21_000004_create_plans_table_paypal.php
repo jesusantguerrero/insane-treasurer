@@ -34,6 +34,6 @@ class CreatePlansTablePaypal extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plans');
+        Schema::dropIfExists('subscription_plans');
     }
 }

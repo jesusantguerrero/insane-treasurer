@@ -2,9 +2,8 @@
 
 namespace Insane\Treasurer\Concerns;
 
-use Illuminate\Http\Request;
-use Insane\Treasurer\PaypalServiceV2;
 use Insane\Treasurer\Invoice;
+use Insane\Treasurer\PaypalServiceV2;
 
 trait ManagesInvoices
 {

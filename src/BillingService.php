@@ -4,8 +4,9 @@ namespace Insane\Treasurer;
 
 
 // Used to process plans
-use Insane\Treasurer\Services\LocalBillingService;
 use Insane\Treasurer\Services\PaypalServiceV2;
+use Insane\Treasurer\Services\NeatlancerService;
+use Insane\Treasurer\Services\LocalBillingService;
 
 class BillingService {
     private $apiContext;
@@ -19,6 +20,8 @@ class BillingService {
 
         if ($driver == 'paypal') {
             $this->serviceProvider = new PaypalServiceV2();
+        } else if ($driver == 'neatlancer') {
+          $this->serviceProvider = new NeatlancerService();
         } else {
             $this->serviceProvider = new LocalBillingService();
         }

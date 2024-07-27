@@ -45,4 +45,16 @@ class SubscriptionPlan extends Model
             "details" => $planConfig['details'] ?? "[]"
         ]);
     }
+
+    public static function createFromRemote($planConfig) {
+        return self::create([
+            "user_id" => 0,
+            "name" => $planConfig['name'],
+            "paypal_plan_id" => $planConfig['paypal_plan_id'] ?? "",
+            "paypal_plan_status" =>  1,
+            "features" => $planConfig['features'],
+            "quantity" => $planConfig['quantity'],
+            "details" => $planConfig['details'] ?? "[]"
+        ]);
+    }
 }
